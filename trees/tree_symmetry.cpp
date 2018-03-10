@@ -41,7 +41,7 @@ struct stack {
         data_t saved_value = top -> value;
         stack_node<data_t>* trash = top;
         top = top -> next;
-        delete trash;
+        delete trash; 
         --size;
         return saved_value;
     }
