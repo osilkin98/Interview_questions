@@ -1,2 +1,2 @@
-# Interview_questions
+# Interview questions
 Interview Questions &amp; their solutions
