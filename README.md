@@ -1,2 +1,2 @@
 # Interview questions
-Interview Questions &amp; their solutions
+Interview Questions and their solutions
