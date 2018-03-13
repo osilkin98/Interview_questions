@@ -10,6 +10,8 @@
 // 
 
 // stack nodes
+
+/*
 template <typename data_t>
 struct stack_node {
     stack_node<data_t>* next;
@@ -51,53 +53,61 @@ struct stack {
         }
     }
 };
-
+*/
 // this method will create and return a stack of stack_node elements
 // by traversing the stack in a pre-order routine, from left to right
 // with the calling argument being the left node of the root node
+#include <stack>
+
 template <typename data_t>
-void inorder_stack_left(Tree<data_t>* tree_root, stack<data_t>* left_stack) {
+void inorder_stack_left(Tree<data_t>* tree_root, std::stack<data_t>& left_stack) {
+    // we've reached a node that doesn't exist
     if(!tree_root) {
         return;
     }
+    std::cout << "stuck in inorder_stack_left\n";
     inorder_stack_left(tree_root -> left, left_stack);
-    left_stack -> push(tree_root -> value);
+    left_stack.push(tree_root -> value);
     inorder_stack_left(tree_root -> right, left_stack);
 }
 
+// same as the regular left to right inorder for binary trees, except the process is reversed.
 template <typename data_t>
-void inorder_stack_right(Tree<data_t>* tree_root, stack<data_t>* right_stack) {
+void inorder_stack_right(Tree<data_t>* tree_root, std::stack<data_t>& right_stack) {
     if(!tree_root) {
         return;
     }
     inorder_stack_right(tree_root -> right, right_stack);
-    right_stack -> push(tree_root -> value);
+    right_stack.push(tree_root -> value);
     inorder_stack_right(tree_root -> left, right_stack);
 
 }
 
 bool isTreeSymmetric(Tree<int> * t) {
+    std::cout << "we have entered the called function\n";
     if(!t) {
         return true;
     } else if(!(t -> left) && !(t -> right)) {
         return true;
     }
-    stack<int>* left_stack;
-    stack<int>* right_stack;
-    left_stack = new stack<int>;
-    right_stack = new stack<int>;
+    std::cout << "initializing the stacks\n";
+    std::stack<int> left_stack;
+    std::stack<int> right_stack;
     inorder_stack_left(t -> left, left_stack);
     inorder_stack_right(t -> right, right_stack);
-    if(left_stack -> size != right_stack -> size) {
-        left_stack -> delete_stack();
-        right_stack -> delete_stack();
+    std::cout << "left_stack.size() = " << left_stack.size() << "\n";
+    if(left_stack.size() != right_stack.size()) {
         return false;
     } else {
-        while(0 < left_stack -> size) {
-            if(left_stack -> pop() != right_stack -> pop()) {
+        while(0 < left_stack.size()) {
+            if(left_stack.top() != right_stack.top()) {
                 return false;
             }
+            left_stack.pop();
+            right_stack.pop();
         }
+        std::cout << "the program deletes the stacks without a problem.\n";
         return true;
     }   
 }
+
